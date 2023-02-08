@@ -44,9 +44,9 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#run-the-setup-command">Run the setup command:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configure-the-configuration-folder-eg-2016real-with-the-main-files">Configure the configuration folder (e.g. 2016Real) with the main files:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#configure-the-configuration-folder-eg-examples2016real">Configure the configuration folder (e.g. examples/2016Real):</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#run-the-analysis">Run the analysis:</a>
     </li>
@@ -56,18 +56,14 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#plots">Plots</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#commands">Commands</a>
-    </li>
     </ul>
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Framework</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="mkShapesRDF/">mkShapesRDF</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="runner/">Runner</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="folder/">Configuration Folder Structure</a>
+                  <li class="toctree-l1"><a class="reference internal" href="config/">Configuration Folder Structure</a>
                   </li>
               </ul>
       </div>
@@ -94,54 +90,70 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="welcome-to-mkshapesrdf">Welcome to mkShapesRDF</h1>
-<h2 id="run-the-setup-command">Run the setup command:</h2>
-<pre><code>. ./setup.sh
+<h2 id="installation">Installation</h2>
+<p>Git clone the project and work with the <code>v0.0.1</code> </p>
+<pre><code class="language-bash">
+git clone https://github.com/giorgiopizz/mkShapesRDF.git
+git checkout v0.0.1
+
 </code></pre>
-<h2 id="configure-the-configuration-folder-eg-2016real-with-the-main-files">Configure the configuration folder (e.g. 2016Real) with the main files:</h2>
-<ul>
-<li>aliases.py</li>
-<li>configuration.py</li>
-<li>cuts.py</li>
-<li>nuisances.py</li>
-<li>plot.py</li>
-<li>samples.py</li>
-<li>variables.py</li>
-</ul>
+<p>Lxplus is currently the only supported machine.
+In order to install the package it's first necessary to source the right LCG release:</p>
+<pre><code class="language-bash">source /cvmfs/sft.cern.ch/lcg/views/LCG_102/x86_64-centos7-gcc11-opt/setup.sh
+</code></pre>
+<p>now the right python version (3.9) and it's bindings with ROOT are setup.
+It's highly reccomended to create a virtual environment for the installation:</p>
+<pre><code class="language-bash">python -m venv --system-site-packages myenv
+</code></pre>
+<p>and of course activate it:</p>
+<pre><code class="language-bash">source myenv/bin/activate
+</code></pre>
+<p>Now you can proceed to the simple installation:</p>
+<pre><code>pip install -e .
+</code></pre>
+<p>From now on, when you will login again on lxplus you will just have to run the setup command:</p>
+<pre><code>. ./start.sh
+</code></pre>
+<h2 id="configure-the-configuration-folder-eg-examples2016real">Configure the configuration folder (e.g. <code>examples/2016Real</code>):</h2>
+<p>Documentation on the configuration folder structure at <a href="config/">this page</a></p>
+<!-- - configuration.py 
+
+- aliases.py
+- configuration.py
+- cuts.py
+- nuisances.py
+- plot.py
+- samples.py
+- variables.py -->
+
 <h2 id="run-the-analysis">Run the analysis:</h2>
-<pre><code class="language-bash">python mkShapesRDFParallel.py -o 0 -f 2016Real -b 1
+<pre><code class="language-bash">mkShapesRDF -o 0 -f . -b 1
 </code></pre>
 <p><code>-o</code> indicates the operationMode:
 - 0 run analysis
 - 1 check batch output and errs
 - 2 merge root files
 - 3 plot them</p>
-<p>For the provided example (2016Real) it's estimated an execution time of ~ 10 mins running on lxbatch (condor on lxplus) @ CERN.</p>
-<p>It's highly recommended to limit input ROOT files at the first run to check for errors. The following command will only take 1 file for each sample type:</p>
-<pre><code class="language-bash">python mkShapesRDFParallel.py -o 0 -f 2016Real -l 1
+<p>For the provided example (2016Real) it's estimated an execution time of ~ 10 mins running on lxbatch (condor on lxplus) @ CERN when disabling nuisances.</p>
+<p>It's highly recommended to limit input ROOT files at the first run to check for errors. The following command will only take 1 event for each sample type:</p>
+<pre><code class="language-bash">python mkShapesRDF.py -o 0 -f . -l 1
 </code></pre>
 <h2 id="check-for-errors">Check for errors</h2>
-<p>After all the jobs finished (or most of them did) you can run <code>mkShapesRDFParallel.py -o 1 -f 2016Real</code> to know which jobs failed and why</p>
+<p>After all the jobs finished (or most of them did) you can run <code>mkShapesRDF.py -o 1 -f .</code> to know which jobs failed and why</p>
 <h2 id="merge-files">Merge files</h2>
 <p>If all the jobs succeeded run the merger with the option: </p>
-<pre><code class="language-bash">python mkShapesRDFParallel.py -o 2 -f 2016Real
+<pre><code class="language-bash">python mkShapesRDF.py -o 2 -f .
 </code></pre>
 <h2 id="plots">Plots</h2>
 <p>Plot with </p>
-<pre><code class="language-bash">python mkShapesRDFParallel.py -o 3 -f 2016Real
+<pre><code class="language-bash">python mkShapesRDF.py -o 3 -f .
 </code></pre>
 <p>which will create the plots to the specified paths provided in <code>configuration.py</code> </p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
-</ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="mkShapesRDF/" class="btn btn-neutral float-right" title="mkShapesRDF">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="runner/" class="btn btn-neutral float-right" title="Runner">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -165,7 +177,7 @@
     
     
     
-      <span><a href="mkShapesRDF/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="runner/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -184,5 +196,5 @@
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2022-12-23 16:25:42.760949+00:00
+Build Date UTC : 2023-02-08 17:06:59.278853+00:00
 -->

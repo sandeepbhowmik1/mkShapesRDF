@@ -47,21 +47,19 @@
               </ul>
               <p class="caption"><span class="caption-text">Framework</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../mkShapesRDF/">mkShapesRDF</a>
-                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Runner</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#runner.RunAnalysis.splitSamples">splitSamples()</a>
+    <li class="toctree-l2"><a class="reference internal" href="#mkShapesRDF.shapeAnalysis.runner.RunAnalysis.splitSamples">splitSamples()</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#runner.RunAnalysis.__init__">__init__()</a>
+    <li class="toctree-l2"><a class="reference internal" href="#mkShapesRDF.shapeAnalysis.runner.RunAnalysis.__init__">__init__()</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#the-main-function">The main function:</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#runner.RunAnalysis.run">run()</a>
+    <li class="toctree-l2"><a class="reference internal" href="#mkShapesRDF.shapeAnalysis.runner.RunAnalysis.run">run()</a>
     </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../folder/">Configuration Folder Structure</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config/">Configuration Folder Structure</a>
                   </li>
               </ul>
       </div>
@@ -95,8 +93,8 @@
 
 
 
-<h2 id="runner.RunAnalysis.splitSamples" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">runner</span><span class="o">.</span><span class="n">RunAnalysis</span><span class="o">.</span><span class="n">splitSamples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">useFilesPerJob</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+<h2 id="mkShapesRDF.shapeAnalysis.runner.RunAnalysis.splitSamples" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">mkShapesRDF</span><span class="o">.</span><span class="n">shapeAnalysis</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">RunAnalysis</span><span class="o">.</span><span class="n">splitSamples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">useFilesPerJob</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
@@ -169,8 +167,8 @@
 
 
 
-<h2 id="runner.RunAnalysis.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">runner</span><span class="o">.</span><span class="n">RunAnalysis</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">preselections</span><span class="p">,</span> <span class="n">cuts</span><span class="p">,</span> <span class="n">nuisances</span><span class="p">,</span> <span class="n">lumi</span><span class="p">,</span> <span class="n">limit</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">outputFileMap</span><span class="o">=</span><span class="s1">&#39;output.root&#39;</span><span class="p">)</span></code>
+<h2 id="mkShapesRDF.shapeAnalysis.runner.RunAnalysis.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">mkShapesRDF</span><span class="o">.</span><span class="n">shapeAnalysis</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">RunAnalysis</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">cuts</span><span class="p">,</span> <span class="n">nuisances</span><span class="p">,</span> <span class="n">lumi</span><span class="p">,</span> <span class="n">limit</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">outputFileMap</span><span class="o">=</span><span class="s1">&#39;output.root&#39;</span><span class="p">)</span></code>
 
 </h2>
 
@@ -221,21 +219,11 @@
           </td>
         </tr>
         <tr>
-          <td><code>preselections</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>string with the preselections</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
           <td><code>cuts</code></td>
           <td>
                 <code>dict</code>
           </td>
-          <td><p>dict of cuts</p></td>
+          <td><p>dict of cuts, contains two keys (preselections: str, cuts: dict)</p></td>
           <td>
               <em>required</em>
           </td>
@@ -310,8 +298,8 @@
 
 
 
-<h2 id="runner.RunAnalysis.run" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">runner</span><span class="o">.</span><span class="n">RunAnalysis</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></code>
+<h2 id="mkShapesRDF.shapeAnalysis.runner.RunAnalysis.run" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">mkShapesRDF</span><span class="o">.</span><span class="n">shapeAnalysis</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">RunAnalysis</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></code>
 
 </h2>
 
@@ -330,8 +318,8 @@ It will determine how to split the sample splitting and merging of results</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../mkShapesRDF/" class="btn btn-neutral float-left" title="mkShapesRDF"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../folder/" class="btn btn-neutral float-right" title="Configuration Folder Structure">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../config/" class="btn btn-neutral float-right" title="Configuration Folder Structure">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -354,10 +342,10 @@ It will determine how to split the sample splitting and merging of results</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../mkShapesRDF/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../folder/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../config/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
