@@ -109,10 +109,10 @@ It's highly reccomended to create a virtual environment for the installation:</p
 <pre><code class="language-bash">source myenv/bin/activate
 </code></pre>
 <p>Now you can proceed to the simple installation:</p>
-<pre><code>pip install -e .
+<pre><code class="language-bash">pip install -e .
 </code></pre>
 <p>From now on, when you will login again on lxplus you will just have to run the setup command:</p>
-<pre><code>. ./start.sh
+<pre><code class="language-bash">. ./start.sh
 </code></pre>
 <h2 id="configure-the-configuration-folder-eg-examples2016real">Configure the configuration folder (e.g. <code>examples/2016Real</code>):</h2>
 <p>Documentation on the configuration folder structure at <a href="config/">this page</a></p>
@@ -139,7 +139,7 @@ It's highly reccomended to create a virtual environment for the installation:</p
 <pre><code class="language-bash">python mkShapesRDF.py -o 0 -f . -l 1
 </code></pre>
 <h2 id="check-for-errors">Check for errors</h2>
-<p>After all the jobs finished (or most of them did) you can run <code>mkShapesRDF.py -o 1 -f .</code> to know which jobs failed and why</p>
+<p>After all the jobs finished (or most of them did) you can run <code>mkShapesRDF.py -o 1 -f .</code> to know which jobs failed and why and if some are present <code>mkShapesRDF.py -o 1 -f . -r 1</code> to automatically resubmit them.</p>
 <h2 id="merge-files">Merge files</h2>
 <p>If all the jobs succeeded run the merger with the option: </p>
 <pre><code class="language-bash">python mkShapesRDF.py -o 2 -f .
@@ -196,5 +196,5 @@ It's highly reccomended to create a virtual environment for the installation:</p
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2023-02-08 17:06:59.278853+00:00
+Build Date UTC : 2023-02-17 11:30:42.885229+00:00
 -->
