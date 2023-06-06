@@ -1,7 +1,7 @@
 import ROOT
 from mkShapesRDF.processor.framework.Module import Module
 import correctionlib
-
+import os
 
 correctionlib.register_pyroot_binding()
 
