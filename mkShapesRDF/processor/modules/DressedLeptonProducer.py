@@ -8,8 +8,6 @@ class DressedLeptonProducer(Module):
         self.cone = cone
 
     def runModule(self, df, values):
-
-
         ROOT.gInterpreter.Declare(
             """
             ROOT::RVecI doDressedIdx(ROOT::RVecF lep_pt, ROOT::RVecF lep_eta, ROOT::RVecF lep_phi, ROOT::RVecF lep_mass, ROOT::RVecI lep_pid, ROOT::RVecI lep_status, ROOT::RVecF photon_pt, ROOT::RVecF photon_eta, ROOT::RVecF photon_phi, float cone){
@@ -42,50 +40,45 @@ class DressedLeptonProducer(Module):
             """
         )
 
-
         df = df.Define(
             "LeptonGen_dressedphotonIdx",
-            f"doDressedIdx(LeptonGen_pt, LeptonGen_eta, LeptonGen_phi, LeptonGen_mass, LeptonGen_pdgId, LeptonGen_status, PhotonGen_pt, PhotonGen_eta, PhotonGen_phi, {self.cone})"
+            f"doDressedIdx(LeptonGen_pt, LeptonGen_eta, LeptonGen_phi, LeptonGen_mass, LeptonGen_pdgId, LeptonGen_status, PhotonGen_pt, PhotonGen_eta, PhotonGen_phi, {self.cone})",
         )
-
-
 
         ROOT.gInterpreter.Declare(
             """
-            std::vector<ROOT::RVecF> doDressed(ROOT::RVecF lep_pt, ROOT::RVecF lep_eta, ROOT::RVecF lep_phi, ROOT::RVecF lep_mass, ROOT::RVecF photon_pt, ROOT::RVecF photon_eta, ROOT::RVecF photon_phi, ROOT::RVecI dressedIdx){                                           
+            std::vector<ROOT::RVecF> doDressed(ROOT::RVecF lep_pt, ROOT::RVecF lep_eta, ROOT::RVecF lep_phi, ROOT::RVecF lep_mass, ROOT::RVecF photon_pt, ROOT::RVecF photon_eta, ROOT::RVecF photon_phi, ROOT::RVecI dressedIdx){
 
-                std::vector<ROOT::RVecF> dressed;                                                                                                                                                                                                                            
-                for (uint k = 0; k<lep_pt.size(); k++){                                                                                                                                                                                                                   
+                std::vector<ROOT::RVecF> dressed;
+                for (uint k = 0; k<lep_pt.size(); k++){
 
-                        if (dressedIdx[k]==-1){                                                                                                                                                                                                                              
+                        if (dressedIdx[k]==-1){
                                 ROOT::RVecF tmp;
                                 TLorentzVector lep;
                                 lep.SetPtEtaPhiM(lep_pt[k], lep_eta[k], lep_phi[k], lep_mass[k]);
                                 tmp = {float(lep.Pt()), float(lep.Eta()), float(lep.Phi()), float(lep.M())};
                                 dressed.emplace_back(tmp);
-                        }else{                                                                                                                                                                                                                                               
-                            ROOT::RVecF tmp;                                                                                                                                                                                                                                 
-                            TLorentzVector pho;                                                                                                                                                                                                                              
-                            pho.SetPtEtaPhiM(photon_pt[dressedIdx[k]], photon_eta[dressedIdx[k]], photon_phi[dressedIdx[k]], 0.0);                                                                                                                                           
-                            
-                            TLorentzVector lep;                                                                                                                                                                                                                              
+                        }else{
+                            ROOT::RVecF tmp;
+                            TLorentzVector pho;
+                            pho.SetPtEtaPhiM(photon_pt[dressedIdx[k]], photon_eta[dressedIdx[k]], photon_phi[dressedIdx[k]], 0.0);
+
+                            TLorentzVector lep;
                             lep.SetPtEtaPhiM(lep_pt[k], lep_eta[k], lep_phi[k], lep_mass[k]);
 
-                            tmp = {float((lep+pho).Pt()), float((lep+pho).Eta()), float((lep+pho).Phi()), float((lep+pho).M())};                                                                                                                                             
-                            dressed.emplace_back(tmp);                                                                                                                                                                                                                       
-                        }                                                
-                }                                                                                                                                                                                                                                                            
-                return dressed;                                                                                                                                                                                                                                             
-            }                                                                                                                                                                                                                                                                
+                            tmp = {float((lep+pho).Pt()), float((lep+pho).Eta()), float((lep+pho).Phi()), float((lep+pho).M())};
+                            dressed.emplace_back(tmp);
+                        }
+                }
+                return dressed;
+            }
             """
         )
-        
 
         df = df.Define(
             "DressedLepton_results",
-            "doDressed(LeptonGen_pt, LeptonGen_eta, LeptonGen_phi, LeptonGen_mass, PhotonGen_pt, PhotonGen_eta, PhotonGen_phi, LeptonGen_dressedphotonIdx)"
+            "doDressed(LeptonGen_pt, LeptonGen_eta, LeptonGen_phi, LeptonGen_mass, PhotonGen_pt, PhotonGen_eta, PhotonGen_phi, LeptonGen_dressedphotonIdx)",
         )
-        
 
         ROOT.gInterpreter.Declare(
             """
@@ -99,11 +92,7 @@ class DressedLeptonProducer(Module):
            """
         )
 
-        df = df.Define(
-            "DressedLepton_pt",
-            "getDressed_pt(DressedLepton_results)"
-        )
-        
+        df = df.Define("DressedLepton_pt", "getDressed_pt(DressedLepton_results)")
 
         ROOT.gInterpreter.Declare(
             """
@@ -117,13 +106,7 @@ class DressedLeptonProducer(Module):
             """
         )
 
-
-        df = df.Define(
-            "DressedLepton_eta",
-            "getDressed_eta(DressedLepton_results)"
-        )
-
-
+        df = df.Define("DressedLepton_eta", "getDressed_eta(DressedLepton_results)")
 
         ROOT.gInterpreter.Declare(
             """
@@ -137,12 +120,7 @@ class DressedLeptonProducer(Module):
             """
         )
 
-
-        df = df.Define(
-            "DressedLepton_phi",
-            "getDressed_phi(DressedLepton_results)"
-        )
-
+        df = df.Define("DressedLepton_phi", "getDressed_phi(DressedLepton_results)")
 
         ROOT.gInterpreter.Declare(
             """
@@ -156,24 +134,11 @@ class DressedLeptonProducer(Module):
             """
         )
 
+        df = df.Define("DressedLepton_mass", "getDressed_mass(DressedLepton_results)")
 
-        df = df.Define(
-            "DressedLepton_mass",
-            "getDressed_mass(DressedLepton_results)"
-        )
-
-
-        df = df.Define(
-            "DressedLepton_pdgId",
-            "LeptonGen_pdgId"
-        )
-
+        df = df.Define("DressedLepton_pdgId", "LeptonGen_pdgId")
 
         df = df.DropColumns("LeptonGen_dressedphotonIdx")
         df = df.DropColumns("DressedLepton_results")
 
         return df
-
-
-
-

@@ -7,88 +7,84 @@ class WGammaStarProducer(Module):
         super().__init__("WGammaStarProducer")
 
     def runModule(self, df, values):
-
         '''
         ROOT.gInterpreter.Declare(
             """
-            ROOT::RVecB bitExpr(ROOT::RVecF variable, int vvalue){                                                                                                                                                                                                           
-                ROOT::RVecB r;                                                                                                                                                                                                                                               
-                bool c = false;                                                                                                                                                                                                                                              
-                for (uint i = 0; i < variable.size(); i++){                                                                                                                                                                                                                  
-                        if (vvalue == 0){                                                                                                                                                                                                                                    
-                                c = bool(int(variable[i]) & 1);                                                                                                                                                                                                              
-                        }else{                                                                                                                                                                                                                                               
-                            c = bool((int(variable[i]) >> vvalue) & 1);                                                                                                                                                                                                      
-                            r.push_back(c);                                                                                                                                                                                                                                  
-                        }                                                                                                                                                                                                                                                    
-                }                                                                                                                                                                                                                                                            
-                return r;                                                                                                                                                                                                                                                    
-            }                                                                                                                                                                                                                                                                
+            ROOT::RVecB bitExpr(ROOT::RVecF variable, int vvalue){
+                ROOT::RVecB r;
+                bool c = false;
+                for (uint i = 0; i < variable.size(); i++){
+                        if (vvalue == 0){
+                                c = bool(int(variable[i]) & 1);
+                        }else{
+                            c = bool((int(variable[i]) >> vvalue) & 1);
+                            r.push_back(c);
+                        }
+                }
+                return r;
+            }
             """
         )
         '''
 
-
         ROOT.gInterpreter.Declare(
             """
-            ROOT::RVecF findPairs(ROOT::RVecI lep_pdgId, ROOT::RVecF lep_pt, ROOT::RVecF lep_eta, ROOT::RVecF lep_phi){                                                                                                                                                      
-                ROOT::RVecF gstar; 
-                
+            ROOT::RVecF findPairs(ROOT::RVecI lep_pdgId, ROOT::RVecF lep_pt, ROOT::RVecF lep_eta, ROOT::RVecF lep_phi){
+                ROOT::RVecF gstar;
+
                 float gstarmass = 999999.;
-                
-                for (int i = 0; i < lep_pdgId.size(); i ++){                                                                                                                                                                                                                 
-                        for (int j = 0; j < lep_pdgId.size(); j ++){                                                                                                                                                                                                         
-                                if (lep_pdgId[i]*lep_pdgId[j]==-lep_pdgId[i]*lep_pdgId[i]){                                                                                                                                                                                  
 
-                                        TLorentzVector tmp4V_1;                                                                                                                                                                                                              
-                                        TLorentzVector tmp4V_2;                                                                                                                                                                                                              
+                for (int i = 0; i < lep_pdgId.size(); i ++){
+                        for (int j = 0; j < lep_pdgId.size(); j ++){
+                                if (lep_pdgId[i]*lep_pdgId[j]==-lep_pdgId[i]*lep_pdgId[i]){
 
-                                        if (abs(lep_pdgId[i])==11){                                                                                                                                                                                                          
-                                                tmp4V_1.SetPtEtaPhiM(lep_pt[i], lep_eta[i], lep_phi[i], 0.0005);                                                                                                                                                
-                                                tmp4V_2.SetPtEtaPhiM(lep_pt[j], lep_eta[j], lep_phi[j], 0.0005);                                                                                                                                                
-                                        }else if (abs(lep_pdgId[i])==13){                                                                                                                                                                                                    
+                                        TLorentzVector tmp4V_1;
+                                        TLorentzVector tmp4V_2;
+
+                                        if (abs(lep_pdgId[i])==11){
+                                                tmp4V_1.SetPtEtaPhiM(lep_pt[i], lep_eta[i], lep_phi[i], 0.0005);
+                                                tmp4V_2.SetPtEtaPhiM(lep_pt[j], lep_eta[j], lep_phi[j], 0.0005);
+                                        }else if (abs(lep_pdgId[i])==13){
                                             tmp4V_1.SetPtEtaPhiM(lep_pt[i], lep_eta[i], lep_phi[i], 0.106);
-                                            tmp4V_2.SetPtEtaPhiM(lep_pt[j], lep_eta[j], lep_phi[j], 0.106);                                                                                                                                                     
-                                        }                                                                                                                                                                                                                                    
-                                        if ((tmp4V_1+tmp4V_2).M()<gstarmass){                                                                                                                                                                                                
-                                                gstarmass = (tmp4V_1+tmp4V_2).M();                                                                                                                                                                                           
-                                                gstar = {lep_pt[i], lep_eta[i], lep_phi[i], float(lep_pdgId[i]), lep_pt[j], lep_eta[j], lep_phi[j], float(lep_pdgId[j])};                                                   
-                                }                                                                                                                                                                                                             
-                            }                                                                                                                                                                                                                                             
-                        }                                                                                                                                                                                                                                                    
-                }                                                                                                                                                                                                                                                            
-                return gstar;  // It returns the indices of the leptons after appling the lepton mask                                                                                                                                                                        
-            }  
+                                            tmp4V_2.SetPtEtaPhiM(lep_pt[j], lep_eta[j], lep_phi[j], 0.106);
+                                        }
+                                        if ((tmp4V_1+tmp4V_2).M()<gstarmass){
+                                                gstarmass = (tmp4V_1+tmp4V_2).M();
+                                                gstar = {lep_pt[i], lep_eta[i], lep_phi[i], float(lep_pdgId[i]), lep_pt[j], lep_eta[j], lep_phi[j], float(lep_pdgId[j])};
+                                }
+                            }
+                        }
+                }
+                return gstar;  // It returns the indices of the leptons after appling the lepton mask
+            }
             """
         )
-
-
 
         ROOT.gInterpreter.Declare(
             """
-            ROOT::RVecI getDaugtherId(int genpart_idx, ROOT::RVecI gen_pid, ROOT::RVecI gen_status, ROOT::RVecI gen_motherIdx, ROOT::RVecI daugthers_idx){                                                                                                                   
+            ROOT::RVecI getDaugtherId(int genpart_idx, ROOT::RVecI gen_pid, ROOT::RVecI gen_status, ROOT::RVecI gen_motherIdx, ROOT::RVecI daugthers_idx){
 
-                if (gen_status[genpart_idx] == 1 || abs(gen_pid[genpart_idx]) == 15){                                                                                                                                                                                        
-                        daugthers_idx.push_back(genpart_idx);                                                                                                                                                                                                                
-                }else{                                                                                                                                                                                                                                                       
-                    for (uint i = 0; i < gen_motherIdx.size(); i++){                                                                                                                                                                                                         
-                            if (gen_motherIdx[i]==genpart_idx){                                                                                                                                                                                                              
-                                    daugthers_idx = getDaugtherId(i, gen_pid, gen_status, gen_motherIdx, daugthers_idx);                                                                                                                                                     
-                            }                                                                                                                                                                                                                                                
-                    }                                                                                                                                                                                                                                                        
-                }  
+                if (gen_status[genpart_idx] == 1 || abs(gen_pid[genpart_idx]) == 15){
+                        daugthers_idx.push_back(genpart_idx);
+                }else{
+                    for (uint i = 0; i < gen_motherIdx.size(); i++){
+                            if (gen_motherIdx[i]==genpart_idx){
+                                    daugthers_idx = getDaugtherId(i, gen_pid, gen_status, gen_motherIdx, daugthers_idx);
+                            }
+                    }
+                }
                 return daugthers_idx;
-            }                                                                                                                                                                                                                                                                
+            }
 
-            ROOT::RVecI getDaugthers(int genpart_idx, ROOT::RVecI gen_pid, ROOT::RVecI gen_status, ROOT::RVecI gen_motherIdx){                                                                                                                                               
-                ROOT::RVecI daugthers_idx;                                                                                                                                                                                                                                   
-                daugthers_idx = getDaugtherId(genpart_idx, gen_pid, gen_status, gen_motherIdx, daugthers_idx);                                                                                                                                                               
-                return daugthers_idx;                                                                                                                                                                                                                                        
-            }                                                                                                                                                                                                                                                                
+            ROOT::RVecI getDaugthers(int genpart_idx, ROOT::RVecI gen_pid, ROOT::RVecI gen_status, ROOT::RVecI gen_motherIdx){
+                ROOT::RVecI daugthers_idx;
+                daugthers_idx = getDaugtherId(genpart_idx, gen_pid, gen_status, gen_motherIdx, daugthers_idx);
+                return daugthers_idx;
+            }
             """
         )
 
-        ROOT.gInterpreter.Declare( 
+        ROOT.gInterpreter.Declare(
             """
             ROOT::RVecI select_lep(ROOT::RVecI init_idx, ROOT::RVecI gen_pid){
 
@@ -102,7 +98,6 @@ class WGammaStarProducer(Module):
             }
             """
         )
-        
 
         ROOT.gInterpreter.Declare(
             """
@@ -124,13 +119,13 @@ class WGammaStarProducer(Module):
                 float muon2FromGstar_phi  = -9999.0;
                 int mom_pdgId           = 9999;
                 int mom_status          = 9999;
-                
+
                 bool fromG_HP = false;
                 bool fromZ = false;
                 bool fromW = false;
                 bool fromG_PS = false;
                 bool fromG = false;
-                
+
                 ROOT::RVecF gstar;
 
                 ROOT::RVecI fromHardProcessLeptons;
@@ -283,81 +278,44 @@ class WGammaStarProducer(Module):
             }
             """
         )
-        
 
         df = df.Define(
             "Tmp_results",
-            "GetWGStar(GenPart_pdgId, GenPart_status, GenPart_statusFlags, GenPart_genPartIdxMother, GenPart_pt, GenPart_eta, GenPart_phi)"
+            "GetWGStar(GenPart_pdgId, GenPart_status, GenPart_statusFlags, GenPart_genPartIdxMother, GenPart_pt, GenPart_eta, GenPart_phi)",
         )
 
-        
-        df = df.Define("Gen_ZGstar_mu1_pt",
-                       "Tmp_results[8]"
-        )
-        
-        df = df.Define("Gen_ZGstar_mu1_eta",
-                       "Tmp_results[9]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_mu1_phi",
-                       "Tmp_results[10]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_mu2_pt", 
-                       "Tmp_results[11]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_mu2_eta",
-                       "Tmp_results[12]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_mu2_phi",
-                    "Tmp_results[13]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_ele1_pt",
-                       "Tmp_results[2]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_ele1_eta",
-                       "Tmp_results[3]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_ele1_phi",
-                       "Tmp_results[4]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_ele2_pt", 
-                       "Tmp_results[5]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_ele2_eta",
-                       "Tmp_results[6]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_ele2_phi",
-                       "Tmp_results[7]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_mass",   
-                       "Tmp_results[0]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_deltaR",
-                       "Tmp_results[1]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_MomId",   
-                       "Tmp_results[14]"
-                   )
-        
-        df = df.Define("Gen_ZGstar_MomStatus",
-                       "Tmp_results[15]"
-                   )
-        
+        df = df.Define("Gen_ZGstar_mu1_pt", "Tmp_results[8]")
 
+        df = df.Define("Gen_ZGstar_mu1_eta", "Tmp_results[9]")
+
+        df = df.Define("Gen_ZGstar_mu1_phi", "Tmp_results[10]")
+
+        df = df.Define("Gen_ZGstar_mu2_pt", "Tmp_results[11]")
+
+        df = df.Define("Gen_ZGstar_mu2_eta", "Tmp_results[12]")
+
+        df = df.Define("Gen_ZGstar_mu2_phi", "Tmp_results[13]")
+
+        df = df.Define("Gen_ZGstar_ele1_pt", "Tmp_results[2]")
+
+        df = df.Define("Gen_ZGstar_ele1_eta", "Tmp_results[3]")
+
+        df = df.Define("Gen_ZGstar_ele1_phi", "Tmp_results[4]")
+
+        df = df.Define("Gen_ZGstar_ele2_pt", "Tmp_results[5]")
+
+        df = df.Define("Gen_ZGstar_ele2_eta", "Tmp_results[6]")
+
+        df = df.Define("Gen_ZGstar_ele2_phi", "Tmp_results[7]")
+
+        df = df.Define("Gen_ZGstar_mass", "Tmp_results[0]")
+
+        df = df.Define("Gen_ZGstar_deltaR", "Tmp_results[1]")
+
+        df = df.Define("Gen_ZGstar_MomId", "Tmp_results[14]")
+
+        df = df.Define("Gen_ZGstar_MomStatus", "Tmp_results[15]")
 
         df = df.DropColumns("Tmp_results")
 
         return df
-
