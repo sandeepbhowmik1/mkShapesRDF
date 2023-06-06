@@ -39,7 +39,8 @@ class btagSFProducerLatinos(Module):
 
     def runModule(self, df, values):
 
-        ### Correctionlib JSON structure
+        
+        ### Correctionlib JSON structure and allowed chains
         supported_algos = {
             'deepCSV' : {
                 'incl': {
@@ -96,9 +97,6 @@ class btagSFProducerLatinos(Module):
             }            
         }
 
-
-        
-
         
         
         if self.algo not in supported_algos.keys():
@@ -150,9 +148,6 @@ class btagSFProducerLatinos(Module):
                        'lfstats1', 'lfstats2',
                        'cferr1', 'cferr2' ] + self.jesSystsForShape
         
-
-
-        #include "correction.h";
 
         ### Open Json                                                                                                                                                                                      
         ROOT.gInterpreter.Declare(
