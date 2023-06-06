@@ -110,7 +110,11 @@ class btagSFProducerLatinos(Module):
                 if wp not in supported_algos[self.algo][self.mode]['working_point']:
                     raise ValueError("ERROR: Working point '%s' not supported for algo = '%s' and mode = '%s'! Please choose among { %s }." % (wp, self.algo, self.mode, self.supported_wp))
 
-        
+        if '.gz' in self.inputFileName:
+            print("unzip json file: " + self.inputFileName)
+            os.system("gunzip "+self.inputFileName)
+            self.inputFileName = self.inputFileName.split('.gz')[0]
+                    
         branch_algo = {
             'deepCSV' : 'Jet_btagDeepB',
             'deepJet' : 'Jet_btagDeepFlavB'
