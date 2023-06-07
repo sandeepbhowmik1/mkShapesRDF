@@ -12,3 +12,4 @@ line-length = 88
 target-version = ['py39']
 #include = 'tests\.pyi?$'
 include = 'examples\/*\/.*\.py$|mkShapesRDF.*\.py$|tests\/.+\.py$'
+force-exclude = 'mkShapesRDF/processor/data.*\.py$|mkShapesRDF/processor/condor.*\.py$'
