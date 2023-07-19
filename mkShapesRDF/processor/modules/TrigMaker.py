@@ -301,7 +301,7 @@ class TrigMaker(Module):
                         + end
                         + """){run_period = """
                         + RunP_tmp
-                        + """";}
+                        + """;}
                     """
                     )
 
