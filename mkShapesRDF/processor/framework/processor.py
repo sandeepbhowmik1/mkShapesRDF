@@ -372,7 +372,9 @@ class Processor:
                 files = self.searchFiles.searchFilesDAS(**files_cfg)
             else:
                 files = self.searchFiles.searchFiles(**files_cfg)
-            files = files[: self.limitFiles]
+
+            if self.limitFiles!=-1:
+                files = files[: self.limitFiles]
 
             if len(files) == 0:
                 print("No files found for", sampleName, "and configuration", files_cfg)
