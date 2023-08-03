@@ -459,3 +459,18 @@ class mRDF:
             The ``Snapshot`` object, or a ``Proxy<Snapshot>`` if ``lazy=True`` is passed as a keyword argument
         """
         return self.df.Snapshot(*args, **kwargs)
+
+    def Histo1D(self, *args):
+        """                                                                                                                                                                                                                                                                   
+        Produce a TH1D of the mRDF and return it                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                              
+        Parameters                                                                                                                                                                                                                                                            
+        ----------                                                                                                                                                                                                                                                            
+        *args : list                                                                                                                                                                                                                                                          
+            list of arguments to be passed to the ``RDataFrame::Histo1D`` method                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                              
+        Returns                                                                                                                                                                                                                                                               
+        -------                                                                                                                                                                                                                                                               
+        `Proxy<TH1D>`                                                                                                                                                                                                                                                         
+        """
+        return self.df.Histo1D(*args)
