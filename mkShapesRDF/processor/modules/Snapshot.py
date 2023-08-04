@@ -100,6 +100,7 @@ class Snapshot(Module):
         Element_branches = []
 
         trees = [k for k in f.keys() if "Events" not in k]
+        trees = [k.split(";")[0] for k in trees]
 
         for tree in trees:
 
@@ -124,7 +125,7 @@ class Snapshot(Module):
 
                 input_tree = f[tree]
                 first = True
-                for arrays_chunk in input_tree.iterate(step_size="100 MB", how=dict):
+                for arrays_chunk in input_tree.iterate(step_size="200 MB", how=dict):
                     if first:
                         f2[tree] = arrays_chunk
                         first = False
