@@ -1,4 +1,5 @@
 import ROOT
+import uproot
 from fnmatch import fnmatch
 from mkShapesRDF.processor.framework.module import Module
 import sys
@@ -73,29 +74,92 @@ class Snapshot(Module):
 
         """
         # copy other information from inputFiles into the outputfile
-        mergedOutput = f"merged_{outputFilename}"
 
-        proc = subprocess.Popen(
-            f'hadd -fk {mergedOutput} {" ".join(inputFiles)}',
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        out, err = proc.communicate()
-        print(out.decode("utf-8"))
-        print(err.decode("utf-8"), file=sys.stderr)
+        
+        if len(inputFiles)>1:
+            mergedOutput = f"merged_{outputFilename}"
+            
+            proc = subprocess.Popen(
+                f'hadd -fk {mergedOutput} {" ".join(inputFiles)}',
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            out, err = proc.communicate()
+            print(out.decode("utf-8"))
+            print(err.decode("utf-8"), file=sys.stderr)
+        else:
+            mergedOutput = inputFiles[0]
 
+
+        print("DOING SOMETHING")
+
+        f = uproot.open(mergedOutput)
+        f2 = uproot.update(outputFilename)
+
+        Element_branches = []
+
+        trees = [k for k in f.keys() if "Events" not in k]
+
+        for tree in trees:
+
+            if "TTree" not in str(type(f[tree])):
+                if "String" in str(type(f[tree])):
+                    f2[tree] = str(f[tree])
+                else:
+                    f2[tree] = f[tree].array()
+            else:
+
+                TBElementInTTree = False
+
+                for col in f[tree].keys():
+                    
+                    ### Trick for ParameterSet and Metadata   /  Cannot be added with uproot
+                    if "TBranchElement" in str(type(f[tree][col])):
+                        Element_branches.append(tree)
+                        TBElementInTTree = True
+                        break
+
+                if TBElementInTTree: continue
+
+                input_tree = f[tree]
+                first = True
+                for arrays_chunk in input_tree.iterate(step_size="100 MB", how=dict):
+                    if first:
+                        f2[tree] = arrays_chunk
+                        first = False
+                    else:
+                        f2[tree].extend(arrays_chunk)
+
+        f.close()
+        f2.close()
+
+        ### Try in the traditional way
+        if len(Element_branches)!=0:
+            f = ROOT.TFile.Open(mergedOutput)
+            f2 = ROOT.TFile.Open(outputFilename, "UPDATE")
+
+            for tree in Element_branches:
+                f2.cd()
+                f.Get(tree).Write()
+
+            f2.Close()
+            f.Close()
+
+
+        '''
         f = ROOT.TFile.Open(mergedOutput)
         f2 = ROOT.TFile(outputFilename, "UPDATE")
 
         trees = [k.GetName() for k in f.GetListOfKeys()]
         trees = list(set(trees).difference(set(["Events"])))
+
         f2.cd()
         for key in trees:
             f.Get(key).Write()
         f2.Close()
         f.Close()
-
+        '''
         proc = subprocess.Popen(
             f"rm {mergedOutput}",
             shell=True,
@@ -105,6 +169,8 @@ class Snapshot(Module):
         out, err = proc.communicate()
         print(out.decode("utf-8"))
         print(err.decode("utf-8"), file=sys.stderr)
+        
+
 
     def SplitVariations(self, df):
         """
