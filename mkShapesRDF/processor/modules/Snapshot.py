@@ -100,6 +100,7 @@ class Snapshot(Module):
         Element_branches = []
 
         trees = [k for k in f.keys() if "Events" not in k]
+        trees = [k.split(";")[0] for k in trees]
 
         for tree in trees:
 
