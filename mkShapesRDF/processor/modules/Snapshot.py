@@ -92,8 +92,6 @@ class Snapshot(Module):
             mergedOutput = inputFiles[0]
 
 
-        print("DOING SOMETHING")
-
         f = uproot.open(mergedOutput)
         f2 = uproot.update(outputFilename)
 
@@ -105,10 +103,8 @@ class Snapshot(Module):
         for tree in trees:
 
             if "TTree" not in str(type(f[tree])):
-                if "String" in str(type(f[tree])):
-                    f2[tree] = str(f[tree])
-                else:
-                    f2[tree] = f[tree].array()
+                Element_branches.append(tree)
+                continue
             else:
 
                 TBElementInTTree = False
@@ -148,19 +144,6 @@ class Snapshot(Module):
             f.Close()
 
 
-        '''
-        f = ROOT.TFile.Open(mergedOutput)
-        f2 = ROOT.TFile(outputFilename, "UPDATE")
-
-        trees = [k.GetName() for k in f.GetListOfKeys()]
-        trees = list(set(trees).difference(set(["Events"])))
-
-        f2.cd()
-        for key in trees:
-            f.Get(key).Write()
-        f2.Close()
-        f.Close()
-        '''
         proc = subprocess.Popen(
             f"rm {mergedOutput}",
             shell=True,
