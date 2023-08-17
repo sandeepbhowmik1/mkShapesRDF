@@ -41,7 +41,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
             HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 || \
             HLT_IsoMu24 || \
             HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL || \
-            HLT_Ele32_WPTight_Gsf) * \
+            HLT_Ele35_WPTight_Gsf) * \
             TriggerSFWeight_2l * \
             Lepton_RecoSF[0] * \
             Lepton_RecoSF[1] * \
@@ -57,7 +57,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
             HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 || \
             HLT_IsoMu24 || \
             HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL || \
-            HLT_Ele32_WPTight_Gsf) * \
+            HLT_Ele35_WPTight_Gsf) * \
             TriggerSFWeight_3l * \
             Lepton_RecoSF[0] * \
             Lepton_RecoSF[1] * \
@@ -74,7 +74,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
             HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 || \
             HLT_IsoMu24 || \
             HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL || \
-            HLT_Ele32_WPTight_Gsf) * \
+            HLT_Ele35_WPTight_Gsf) * \
             TriggerSFWeight_4l * \
             Lepton_RecoSF[0] * \
             Lepton_RecoSF[1] * \
