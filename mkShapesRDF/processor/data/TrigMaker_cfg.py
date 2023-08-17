@@ -868,7 +868,7 @@ Trigger = {
 # --------------------------- Full2018v9---------------------------------
 
    # Full 2018 lumi --> 59.832475339
-
+    
         'Full2018v9'  :  {
                           # Full 2018 
                           1  :  { 'begin' : 315252 , 'end' : 325175 , 'lumi' : 59.832475339 ,
@@ -938,11 +938,85 @@ Trigger = {
                                               } ,
 
                                   },
-                         },
+        },
+    
+    
 
-        
-
+    'Full2022EEv11'  :  {
+        # Full2022 At this moment only FG eras  // with full Run2022EE begin = 355100
+        1  :  { 'begin' : 360390 , 'end' : 362760 , 'lumi' :  21.128843426,
+                'LegEffData' : { 'DoubleEleLegHigPt' : 'Full2022EEv11/data/EGM_MVAid/Ele23_Ele12_leg1_pt_eta_efficiency_2022EE.json',
+                                 'DoubleEleLegLowPt' : 'Full2022EEv11/data/EGM_MVAid/Ele23_Ele12_leg2_pt_eta_efficiency_2022EE.json',
+                                 'SingleEle'         : 'Full2022EEv11/data/EGM_MVAid/Ele35_pt_eta_efficiency_2022EE.json',
+                                 'DoubleMuLegHigPt'  : 'Full2022EEv11/data/Muons/Mu17_Mu8_leg1_pt_eta_2022EE_SingleMu_efficiency.json' ,
+                                 'DoubleMuLegLowPt'  : 'Full2022EEv11/data/Muons/Mu17_Mu8_leg2_pt_eta_2022EE_SingleMu_efficiency.json' ,
+                                 'SingleMu'          : 'Full2022EEv11/data/Muons/IsoMu24_pt_eta_2022EE_SingleMu_efficiency.json' ,
+                                 'MuEleLegHigPt'     : 'Full2022EEv11/data/Muons/Mu23_pt_eta_2022EE_efficiency.json',
+                                 'MuEleLegLowPt'     : 'Full2022EEv11/data/EGM_MVAid/Ele23_Ele12_leg2_pt_eta_efficiency_2022EE.json',
+                                 'EleMuLegHigPt'     : 'Full2022EEv11/data/EGM_MVAid/Ele23_Ele12_leg1_pt_eta_efficiency_2022EE.json',
+                                 'EleMuLegLowPt'     : 'Full2022EEv11/data/Muons/Mu12_pt_eta_2022EE_efficiency.json' ,
+                             } ,
+                'LegEffMC' : { 'DoubleEleLegHigPt' : 'Full2022EEv11/mc/EGM_MVAid/Ele23_Ele12_leg1_pt_eta_efficiency_2022EE.json',
+                               'DoubleEleLegLowPt' : 'Full2022EEv11/mc/EGM_MVAid/Ele23_Ele12_leg2_pt_eta_efficiency_2022EE.json',
+                               'SingleEle'         : 'Full2022EEv11/mc/EGM_MVAid/Ele35_pt_eta_efficiency_2022EE.json',
+                               'DoubleMuLegHigPt'  : 'Full2022EEv11/mc/Muons/Mu17_Mu8_leg1_pt_eta_2022EE_SingleMu_efficiency.json' ,
+                               'DoubleMuLegLowPt'  : 'Full2022EEv11/mc/Muons/Mu17_Mu8_leg2_pt_eta_2022EE_SingleMu_efficiency.json' ,
+                               'SingleMu'          : 'Full2022EEv11/mc/Muons/IsoMu24_pt_eta_2022EE_SingleMu_efficiency.json' ,
+                               'MuEleLegHigPt'     : 'Full2022EEv11/mc/Muons/Mu23_pt_eta_2022EE_efficiency.json',
+                               'MuEleLegLowPt'     : 'Full2022EEv11/mc/EGM_MVAid/Ele23_Ele12_leg2_pt_eta_efficiency_2022EE.json',
+                               'EleMuLegHigPt'     : 'Full2022EEv11/mc/EGM_MVAid/Ele23_Ele12_leg1_pt_eta_efficiency_2022EE.json',
+                               'EleMuLegLowPt'     : 'Full2022EEv11/mc/Muons/Mu12_pt_eta_2022EE_efficiency.json' ,
+                           } ,
+                'DZEffData'  :  {
+                    'DoubleEle' : { 'value'   : [1.0,0.0] } ,
+                    'DoubleMu'  : { 'value'    : [1.0,0.0] } ,
+                    'MuEle'     : { 'value'   : [1.0,0.0] } ,
+                    'EleMu'     : { 'value'    : [1.0,0.0] } ,
+                } ,
+                'DZEffMC'  :  {
+                    'DoubleEle' : { 'value'   : [1.0,0.0] } ,
+                    'DoubleMu'  : { 'value'    : [1.0,0.0] } ,
+                    'MuEle'     : { 'value'   : [1.0,0.0] } ,
+                    'EleMu'     : { 'value'    : [1.0,0.0] } ,
+                } ,
+                'DRllSF'  : {
+                    'DoubleEle' :  'DRll_SF_ee.txt' ,
+                    'DoubleMu'  :  'DRll_SF_mm.txt' ,
+                    'MuEle'     :  'DRll_SF_me.txt' ,
+                    'EleMu'     :  'DRll_SF_em.txt' ,
+                } ,
+                # Electron HLT Zvtx Efficiency Scale Factor: 0.934+-0.005
+                'GlEff'  :  { 'DoubleEle' : [1.0  ,0.   ],
+                              'DoubleMu'  : [1.0  ,0.   ],
+                              'MuEle'     : [1.0  ,0.   ],
+                              'EleMu'     : [1.0  ,0.   ],
+                              'SingleEle' : [1.0  ,0.   ],
+                              'SingleMu'  : [1.0  ,0.   ],
+                          } ,
+                'EMTFBug':  False ,
+                #'trkSFMu':  [ 1.00 , 1.00 , 1.00 ] , # tracker SF_muons [ cent , up , down ] --> Moved to ID/Iso code
+                'DATA'   :  {
+                    'EleMu'     : [ 'HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL', 'HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ'] ,
+                    'DoubleMu'  : [ 'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8'] ,
+                    'SingleMu'  : [ 'HLT_IsoMu24'] ,
+                    'DoubleEle' : [ 'HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL'] ,
+                    'SingleEle' : [ 'HLT_Ele35_WPTight_Gsf'] ,
+                } ,
+                'MC'     :  {
+                    'EleMu'     : [ 'HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL', 'HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ'] ,
+                    'DoubleMu'  : [ 'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8'] ,
+                    'SingleMu'  : [ 'HLT_IsoMu24'] ,
+                    'DoubleEle' : [ 'HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL'] ,
+                    'SingleEle' : [ 'HLT_Ele35_WPTight_Gsf'] ,
+                } ,
+                
+            },
+    },
 }
+            
+        
+    
+
 
 
 NewVar_MC_dict = {
