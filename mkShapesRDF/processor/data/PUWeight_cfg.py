@@ -10,6 +10,6 @@ PUCfg = {
         'norm'        : True       ,
         'verbose'     : False      ,
         'nvtx_var'    : "Pileup_nTrueInt" ,
-        'doSysVar'    : False ,
+        'doSysVar'    : True ,
     } ,
 }
