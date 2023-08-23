@@ -121,12 +121,8 @@ ElectronWP = {
                         "ROOT::VecOps::abs(Electron_dz) <  0.2",
                     ],
                 },
-                'tkSF':  {
-                    '1-5' : 'data/jsonpog-integration/POG/EGM/2022EE/electron.json.gz'
-                } ,
                 'wpSF':  {
-                    '1-4' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017BCDE.txt' ,
-                    '5-5' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017F.txt' ,
+                    '1-1' : ["NUM_Electron_isTightWinter22V1_DEN_ElectronTrack", 'data/scale_factor/Full2022EEv11/electron_scale.json'],
                 } ,
                 'fakeW' : 'data/fake_prompt_rates/Full2017v9/mvaFall17V2Iso_WP90/',
             },
@@ -150,12 +146,8 @@ ElectronWP = {
                         "ROOT::VecOps::abs(Electron_dz) <  0.2",
                     ],
                 },
-                'tkSF':  {
-                    '1-5' : 'data/jsonpog-integration/POG/EGM/2022EE/electron.json.gz'
-                } ,
                 'wpSF':  {
-                    '1-4' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017BCDE.txt' ,
-                    '5-5' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017F.txt' ,
+                    '1-1' : ["NUM_Electron_isTightWint22_tthmva_DEN_Electron_isTightWinter22V1", 'data/scale_factor/Full2022EEv11/electron_scale.json'],
                 } ,
                 'fakeW' : 'data/fake_prompt_rates/Full2017v9/mvaFall17V2Iso_WP90/',
             },
@@ -178,12 +170,8 @@ ElectronWP = {
                         "ROOT::VecOps::abs(Electron_dz) <  0.2",
                     ],
                 },
-                'tkSF':  {
-                    '1-5' : 'data/jsonpog-integration/POG/EGM/2022EE/electron.json.gz'
-                } ,
                 'wpSF':  {
-                    '1-4' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017BCDE.txt' ,
-                    '5-5' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017F.txt' ,
+                    '1-1' : ["NUM_Electron_isMediumWinter22V1_DEN_ElectronTrack", 'data/scale_factor/Full2022EEv11/electron_scale.json'],
                 } ,
                 'fakeW' : 'data/fake_prompt_rates/Full2017v9/mvaFall17V2Iso_WP90/',
             },
@@ -208,12 +196,8 @@ ElectronWP = {
                         "ROOT::VecOps::abs(Electron_dz) <  0.2",
                     ],
                 },
-                'tkSF':  {
-                    '1-5' : 'data/jsonpog-integration/POG/EGM/2022EE/electron.json.gz'
-                } ,
                 'wpSF':  {
-                    '1-4' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017BCDE.txt' ,
-                    '5-5' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017F.txt' ,
+                    '1-1' : ["NUM_Electron_mvaWinter22V2IsoWP90_DEN_ElectronTrack", 'data/scale_factor/Full2022EEv11/electron_scale.json'],
                 } ,
                 'fakeW' : 'data/fake_prompt_rates/Full2017v9/mvaFall17V2Iso_WP90/',
             },
@@ -238,12 +222,8 @@ ElectronWP = {
                         "ROOT::VecOps::abs(Electron_dz) <  0.2",
                     ],
                 },
-                'tkSF':  {
-                    '1-5' : 'data/jsonpog-integration/POG/EGM/2022EE/electron.json.gz'
-                } ,
                 'wpSF':  {
-                    '1-4' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017BCDE.txt' ,
-                    '5-5' : 'data/scale_factor/Full2017v9/egammaEffi_TightHWW_2017F.txt' ,
+                    '1-1' : ["NUM_Electron_mvaWinter22_tthmva_DEN_Electron_mvaWinter22V2IsoWP90", 'data/scale_factor/Full2022EEv11/electron_scale.json'],
                 } ,
                 'fakeW' : 'data/fake_prompt_rates/Full2017v9/mvaFall17V2Iso_WP90/',
             },
@@ -342,14 +322,10 @@ MuonWP = {
                 },
                 # Update with new SFs
                 "idSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_DEN_TrackerMuons_eta_pt.root"
-                    ],
+                    "1-1": "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_DEN_TrackerMuons_eta_pt.root",
                 },
                 "isoSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_ISO_DEN_TightHWW_eta_pt.root"
-                    ],
+                    "1-1": "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_ISO_DEN_TightHWW_eta_pt.root",
                 },
                 "tthMvaSF": {
                     "1-1": [
@@ -419,14 +395,10 @@ MuonWP = {
                     ],
                 },
                 "idSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_DEN_TrackerMuons_eta_pt.root"
-                    ],
+                    "1-1": ["NUM_TightID_DEN_TrackerMuons", "data/scale_factor/Full2022EEv11/muon_scale.json"], ### [KeyForCorrectionLib, pathToJSON]
                 },
                 "isoSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_ISO_DEN_TightHWW_eta_pt.root"
-                    ],
+                    "1-1": ["NUM_TightIDIso_DEN_TightID", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "fakeW": "/LatinoAnalysis/NanoGardener/python/data/fake_prompt_rates/Full2018v9/cut_Tight_HWWW/",
             },
@@ -449,14 +421,10 @@ MuonWP = {
                     ],
                 },
                 "idSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_MediumHWW_DEN_TrackerMuons_eta_pt.root"
-                    ],
+                    "1-1": ["NUM_MediumID_DEN_TrackerMuons", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "isoSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_MediumHWW_ISO_DEN_MediumHWW_eta_pt.root"
-                    ],
+                    "1-1": ["NUM_MediumIDIso_DEN_MediumID", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "fakeW": "/LatinoAnalysis/NanoGardener/python/data/fake_prompt_rates/Full2018v9/cut_Medium_HWWW/",
             },
@@ -481,20 +449,10 @@ MuonWP = {
                 },
                 # Update with new SFs                                                                                                                                                                      
                 "idSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_DEN_TrackerMuons_eta_pt.root"
-                    ],
+                    "1-1": ["NUM_TightID_DEN_TrackerMuons", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "isoSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_ISO_DEN_TightHWW_eta_pt.root"
-                    ],
-                },
-                "tthMvaSF": {
-                    "1-1": [
-                        "NUM_TightHWW_tth_ISO_DEN_TightHWW_ISO_eta_pt",  # Hist name                                                                                                                       
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_tth_ISO_DEN_TightHWW_ISO_eta_pt.root",
-                    ]  # Nominal+Stat+Syst  
+                    "1-1": ["NUM_TightIDIso_DEN_TightID", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "fakeW": "/LatinoAnalysis/NanoGardener/python/data/fake_prompt_rates/Full2018v9/cut_Tight_HWWW_tthmva_80/",
             },
@@ -519,20 +477,10 @@ MuonWP = {
                 },
                 # Update with new SFs                                                                                                                                                                      
                 "idSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_DEN_TrackerMuons_eta_pt.root"
-                    ],
+                    "1-1": ["NUM_MediumID_DEN_TrackerMuons", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "isoSF": {
-                    "1-1": [
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2018v9/NUM_TightHWW_ISO_DEN_TightHWW_eta_pt.root"
-                    ],
-                },
-                "tthMvaSF": {
-                    "1-1": [
-                        "NUM_TightHWW_tth_ISO_DEN_TightHWW_ISO_eta_pt",  # Hist name                                                                                                                       
-                        "LatinoAnalysis/NanoGardener/python/data/scale_factor/Full2022v11/NUM_MediumHWW_tth_ISO_DEN_TightHWW_ISO_eta_pt.root",
-                    ]  # Nominal+Stat+Syst                                                                                                                                                                 
+                    "1-1": ["NUM_MediumIDIso_DEN_MediumID", "data/scale_factor/Full2022EEv11/muon_scale.json"],
                 },
                 "fakeW": "/LatinoAnalysis/NanoGardener/python/data/fake_prompt_rates/Full2022v11/cut_Medium_HWWW_tthmva_80/",
             },
