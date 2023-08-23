@@ -44,7 +44,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
             HLT_Ele35_WPTight_Gsf) * \
             TriggerSFWeight_2l * \
             Lepton_RecoSF[0] * \
-            Lepton_RecoSF[1] * \
+            Lepton_RecoSF[1]  \
             : 0.0",
         )
 
@@ -61,7 +61,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
             TriggerSFWeight_3l * \
             Lepton_RecoSF[0] * \
             Lepton_RecoSF[1] * \
-            Lepton_RecoSF[2] * \
+            Lepton_RecoSF[2]   \
             : 0.0",
         )
 
@@ -79,7 +79,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
             Lepton_RecoSF[0] * \
             Lepton_RecoSF[1] * \
             Lepton_RecoSF[2] * \
-            Lepton_RecoSF[3] * \
+            Lepton_RecoSF[3]   \
             : 0.0",
         )
 
@@ -456,7 +456,7 @@ class formulasToAdd_MC_Full2022EEv11(Module):
                 + "_TotSF_Up[1])/(Lepton_tightMuon_"
                 + muWP
                 + "_TotSF[1])+\
-                (abs(Lepton_pdgId[1]) == 11)) \
+                (abs(Lepton_pdgId[1]) == 11)) * \
                 ((abs(Lepton_pdgId[2]) == 13)*(Lepton_tightMuon_"
                 + muWP
                 + "_TotSF_Up[2])/(Lepton_tightMuon_"
@@ -486,13 +486,13 @@ class formulasToAdd_MC_Full2022EEv11(Module):
                 + "_TotSF_Down[1])/(Lepton_tightMuon_"
                 + muWP
                 + "_TotSF[1])+\
-                (abs(Lepton_pdgId[1]) == 11))*\
+                (abs(Lepton_pdgId[1]) == 11)) * \
                 ((abs(Lepton_pdgId[2]) == 13)*(Lepton_tightMuon_"
                 + muWP
                 + "_TotSF_Down[2])/(Lepton_tightMuon_"
                 + muWP
                 + "_TotSF[2])+\
-                (abs(Lepton_pdgId[2]) == 11))* \
+                (abs(Lepton_pdgId[2]) == 11)) * \
                 ((abs(Lepton_pdgId[3]) == 13)*(Lepton_tightMuon_"
                 + muWP
                 + "_TotSF_Down[3])/(Lepton_tightMuon_"
