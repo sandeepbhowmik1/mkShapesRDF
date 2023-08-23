@@ -1,6 +1,6 @@
 
 Sites = {
-    "eosTmpWorkDir": "/eos/user/u/username/MC/processor/",
+    "eosTmpWorkDir": "", ### Optional to redirect the input samples
     "eosDir"       : "/eos/cms/store/group/phys_higgs/cmshww/amassiro/HWWNano",
     "rediretor"    : "root://cms-xrd-global.cern.ch/",
 }
