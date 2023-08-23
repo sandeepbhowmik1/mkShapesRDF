@@ -1,6 +1,7 @@
 import sys
 import subprocess
 from mkShapesRDF.processor.framework.Steps_cfg import Steps
+from mkShapesRDF.processor.framework.Sites_cfg import Sites
 from mkShapesRDF.processor.framework.Productions_cfg import Productions
 from mkShapesRDF.lib.search_files import SearchFiles
 import os
@@ -219,6 +220,8 @@ class Processor:
 
         os.system("chmod +x " + jobDir + "run.sh")
 
+        eosTmpPath = Sites["eosTmpWorkDir"]
+        
         frameworkPath = getFrameworkPath() + "mkShapesRDF"
 
         self.fPy += "sampleName = 'RPLME_SAMPLENAME'\n"
@@ -227,9 +230,10 @@ class Processor:
         self.fPy += dedent(
             """
         files = []
+        eosTmpPath = "{eosTmpPath}"
         for f in _files:
             filename = f.split('/')[-1]
-            filename = 'input__' + filename
+            filename = eosTmpPath + 'input__' + filename
             files.append(filename)
             proc = 0
             if "root://" in f:
