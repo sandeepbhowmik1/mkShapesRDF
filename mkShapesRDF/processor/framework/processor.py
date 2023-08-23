@@ -230,7 +230,7 @@ class Processor:
         self.fPy += dedent(
             """
         files = []
-        eosTmpPath = "{eosTmpPath}"
+        eosTmpPath = '"""+eosTmpPath+"""'
         for f in _files:
             filename = f.split('/')[-1]
             filename = eosTmpPath + 'input__' + filename
