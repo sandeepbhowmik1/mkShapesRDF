@@ -93,7 +93,7 @@ class Snapshot(Module):
         trees = list(set(trees).difference(set(["Events"])))
         f2.cd()
         for key in trees:
-            if 'tag' in tree:
+            if 'tag' in key:
                 f.Get(key).Clone().Write()
             else:
                 f.Get(key).CloneTree().Write()
