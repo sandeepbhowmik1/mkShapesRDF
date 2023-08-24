@@ -343,7 +343,13 @@ class Processor:
         self.fPy = self.fPy.replace("RPLME_FW", frameworkPath)
 
         #: folderPathEos is the output folder path (not ending with ``/`` so that is possible to add suffix to the folder)
-        folderPathEos = self.eosDir + "/" + self.prodName + "/" + self.step
+        if self.inputFolder == "":
+            folderPathEos = self.eosDir + "/" + self.prodName + "/" + self.step
+            self.fPy = self.fPy.replace("RPLME_EOSPATH", folderPathEos)
+        else:
+            folderPathEos = self.inputFolder + "__" + self.step
+            self.fPy = self.fPy.replace("RPLME_EOSPATH", folderPathEos)
+            
         self.fPy = self.fPy.replace("RPLME_EOSPATH", folderPathEos)
 
         allSamples = []
