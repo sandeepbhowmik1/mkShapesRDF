@@ -12,6 +12,7 @@ import subprocess
 import fileinput
 import argparse
 from sys import argv
+from mkShapesRDF.processor.framework.Sites_cfg import Sites
 
 def defaultParser():
 
@@ -61,7 +62,7 @@ def run(production, step, initialStep="", submit=False):
     prePath = os.path.abspath(os.path.dirname(__file__))
 
     path = prePath + "/condor/" + production + "/" + step + "/"
-    output_path = "/eos/cms/store/group/phys_higgs/cmshww/calderon/HWWNano/" + production + "/" + initialStep + step
+    output_path = Sites["eosDir"] + production + "/" + initialStep + step
     jobDir = path
 
     cmd = "find {} -type d -name '*'".format(path)
@@ -112,10 +113,7 @@ def run(production, step, initialStep="", submit=False):
                 with fileinput.FileInput(script_files[i], inplace=True, backup='.bak') as f:
                     for line in f:
                         if "cms-xrd-global.cern.ch" in line:
-                            #print("    filename = '/eos/user/s/sblancof/MC/processor/input__' + filename", end='\n')
-                            #if "cms-xrd-global.cern.ch" in line:
                             print(line.replace("cms-xrd-global.cern.ch", "xrootd-cms.infn.it"), end='\n')
-                            #print(line.replace("xrootd-cms.infn.it", "cms-xrd-global.cern.ch"), end='')
                         else:
                             print(line, end='')
             
