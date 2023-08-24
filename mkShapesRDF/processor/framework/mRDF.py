@@ -99,7 +99,10 @@ class mRDF:
             The ``mRDF`` object with the new RDataFrame object stored
 
         """
-        self.df = ROOT.RDataFrame(*ar, **kw).Define("CUT", "true")
+        try:
+            self.df = ROOT.RDataFrame(*ar, **kw).Define("CUT", "true")
+        except:
+            self.df = ROOT.RDataFrame(*ar, **kw).Redefine("CUT", "true")
         self.cols = list(map(lambda k: str(k), self.df.GetColumnNames()))
         return self
 
