@@ -74,7 +74,7 @@ xs_db["ST_tW_antitop"] = ["xsec=43.95", "kfact=1.000", "ref=E"]
 xs_db["WWTo2L2Nu_LL"] = ["xsec=0.488", "kfact=1.000", "ref=E"]   ## 4.598 * 9 * BR(W->lnu) * BR(W->lnu) / BR(W->lnu) = 0.1086
 xs_db["WWTo2L2Nu_TT"] = ["xsec=6.266", "kfact=1.000", "ref=E"]   ## 59.03
 xs_db["WWTo2L2Nu_LT"] = ["xsec=0.911", "kfact=1.000", "ref=E"]   ## 8.582
-xs_db["WWTo2L2Nu_TL"] = ["xsec=", "kfact=1.000", "ref=E"]        ## 8.582
+xs_db["WWTo2L2Nu_TL"] = ["xsec=0.911", "kfact=1.000", "ref=E"]   ## 8.582
 xs_db["ggWW_LL"] = ["xsec=0.025", "kfact=1.000", "ref=E"]       ## 0.239
 xs_db["ggWW_TT"] = ["xsec=0.329", "kfact=1.000", "ref=E"]       ## 3.104
 xs_db["ggWW_LT"] = ["xsec=0.0087", "kfact=1.000", "ref=E"]       ## 0.08195
