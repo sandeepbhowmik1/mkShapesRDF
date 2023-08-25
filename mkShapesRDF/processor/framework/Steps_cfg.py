@@ -55,8 +55,45 @@ Steps = {
             "trigMCnoSF",
             "l2Kin",
             "l3Kin",
+            "puW",
             "formulasMCnoSF",
             "fakeSelMC",
+            "finalSnapshot_MC",
+        ],
+    },
+    "l2loose": {
+        "isChain": True,
+        "do4MC": True,
+        "do4Data": True,
+        "selection": '"(Lepton_pt.size()>1)"',
+        "subTargets": [
+            "finalSnapshot_MC",
+        ],
+    },
+    "l2tightOR2022v11": {
+        "isChain": True,
+        "do4MC": True,
+        "do4Data": True,
+        "selection": '"(Lepton_pt.size()>1 && Lepton_pt[0]>18 && Lepton_pt[1]>8) && \
+        (Lepton_isTightElectron_cut_Tight_HWWW[0] > 0.5    \
+        || Lepton_isTightElectron_cut_Tight_HWWW_tthmva70[0] > 0.5  \
+        || Lepton_isTightElectron_cut_Medium_HWWW[0] > 0.5   \
+        || Lepton_isTightElectron_mvaWinter22V2Iso_WP90[0] > 0.5   \
+        || Lepton_isTightElectron_mvaWinter22V2Iso_WP90_tthmva70[0] > 0.5  \
+        || Lepton_isTightMuon_cut_Tight_HWWW[0] > 0.5   \
+        || Lepton_isTightMuon_cut_Medium_HWWW[0] > 0.5  \
+        || Lepton_isTightMuon_cut_Tight_HWWW_tthmva_80[0] > 0.5   \
+        || Lepton_isTightMuon_cut_Medium_HWWW_tthmva_80[0] > 0.5) && \
+        (Lepton_isTightElectron_cut_Tight_HWWW[1] > 0.5   \
+        || Lepton_isTightElectron_cut_Tight_HWWW_tthmva70[1] > 0.5  \
+        || Lepton_isTightElectron_cut_Medium_HWWW[1] > 0.5   \
+        || Lepton_isTightElectron_mvaWinter22V2Iso_WP90[1] > 0.5   \
+        || Lepton_isTightElectron_mvaWinter22V2Iso_WP90_tthmva70[1] > 0.5  \
+        || Lepton_isTightMuon_cut_Tight_HWWW[1] > 0.5   \
+        || Lepton_isTightMuon_cut_Medium_HWWW[1] > 0.5  \
+        || Lepton_isTightMuon_cut_Tight_HWWW_tthmva_80[1] > 0.5   \
+        || Lepton_isTightMuon_cut_Medium_HWWW_tthmva_80[1] > 0.5 ) "',
+        "subTargets": [
             "finalSnapshot_MC",
         ],
     },
