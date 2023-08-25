@@ -61,6 +61,9 @@ def run(production, step, initialStep="", submit=False):
 
     prePath = os.path.abspath(os.path.dirname(__file__))
 
+    if "Tools" in prePath:
+        prePath = prePath.split("Tools/")[0]   ## Assume you work in processor folder
+    
     path = prePath + "/condor/" + production + "/" + step + "/"
     output_path = Sites["eosDir"] + production + "/" + initialStep + step
     jobDir = path
