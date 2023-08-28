@@ -40,7 +40,7 @@ xs_db = {}
 xs_db["WZ"] = ["xsec=54.3", "kfact=1.000", "ref=E"]   ### MATRIX, SMP-22-017
 xs_db["WZG"] = ["xsec=0.08425", "kfact=1.000", "ref=E"]
 xs_db["WZtoLNu2Q"] = ["xsec=6.44", "kfact=1.000", "ref=E"]
-xs_db["WZto3LNu"] = ["xsec=5.36", "kfact=1.000", "ref=E"]  ###  54.3 * 0.10097 * 0.1086 * 3 * 3 
+xs_db["WZTo3LNu"] = ["xsec=5.36", "kfact=1.000", "ref=E"]  ###  54.3 * 0.10097 * 0.1086 * 3 * 3 
 xs_db["ZZ"] = ["xsec=16.7", "kfact=1.000", "ref=E"]
 xs_db["ZZTo2L2Nu"] = ["xsec=1.1341", "kfact=1.000", "ref=E"]
 xs_db["ZZTo2Q2Nu"] = ["xsec=4.67", "kfact=1.000", "ref=E"]
