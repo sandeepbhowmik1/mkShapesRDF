@@ -208,8 +208,8 @@ class LeptonSel(Module):
             "dR2",
             "ROOT::VecOps::DeltaR2( \
             Take(CleanJet_eta, CleanJet_Lepton_comb[0]), \
-            Take(CleanJet_phi, CleanJet_Lepton_comb[0]), \
             Take(Lepton_eta, CleanJet_Lepton_comb[1]), \
+            Take(CleanJet_phi, CleanJet_Lepton_comb[0]), \
             Take(Lepton_phi, CleanJet_Lepton_comb[1]) \
         )",
         )
