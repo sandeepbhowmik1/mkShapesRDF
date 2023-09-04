@@ -361,7 +361,7 @@ MuonWP = {
                         "ROOT::VecOps::abs(Muon_eta) < 2.4",
                         "Muon_tightId",
                         "ROOT::VecOps::abs(Muon_dz) < 0.1",
-                        "Muon_pfIsoId >= 4",
+                        "Muon_pfRelIso04_all < 0.4",
                     ],
                     # dxy for pT < 20 GeV                                                                                                                                                                  
                     "Muon_pt <= 20.0": [
