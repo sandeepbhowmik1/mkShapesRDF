@@ -373,8 +373,8 @@ Steps = {
         "isChain": False,
         "do4MC": True,
         "do4Data": False,
-        "import": "mkShapesRDF.processor.modules.runDependentPuW",
-        "declare": "puWeight = lambda : runDependentPuW('Full2022EEv11', files)",
+        "import": "mkShapesRDF.processor.modules.runDependentPuWRun3",
+        "declare": "puWeight = lambda : runDependentPuWRun3('Full2022EEv11', files)",
         "module": "puWeight()",
     },
     "leptonSF": {
