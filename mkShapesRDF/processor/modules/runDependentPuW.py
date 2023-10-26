@@ -109,7 +109,7 @@ class runDependentPuW(Module):
             s = s + str(hist.GetBinContent(hist.GetNbinsX()-1)) + """};
             TH1D hist = TH1D("HistPU", "HistPU", hist_values.size(), xmin, xmax);
             for (int i=0; i<hist_values.size(); i++){
-                hist.SetBinContent(i+1, hist_values[i]);
+                hist.SetBinContent(i, hist_values[i]);
             }
             """
 
