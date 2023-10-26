@@ -1,5 +1,4 @@
 import ROOT
-import uproot
 from fnmatch import fnmatch
 from mkShapesRDF.processor.framework.module import Module
 import sys
@@ -46,6 +45,7 @@ class Snapshot(Module):
         includeVariations=True,
         splitVariations=True,
         storeNominals=True,
+        outputMap={}
     ):
         super().__init__("Snapshot")
         self.tmpOutputFilename = tmpOutputFilename
@@ -57,6 +57,7 @@ class Snapshot(Module):
         self.includeVariations = includeVariations
         self.splitVariations = splitVariations
         self.storeNominals = storeNominals
+        self.outputMap = outputMap
 
     @staticmethod
     def CopyFromInputFiles(outputFilename, inputFiles):
@@ -93,10 +94,7 @@ class Snapshot(Module):
         trees = list(set(trees).difference(set(["Events"])))
         f2.cd()
         for key in trees:
-            if 'tag' in key:
-                f.Get(key).Clone().Write()
-            else:
-                f.Get(key).CloneTree().Write()
+            f.Get(key).Write()
         f2.Close()
         f.Close()
 
@@ -121,24 +119,49 @@ class Snapshot(Module):
 
         """
         # create separate files for each variation and tag
-        for variationName in df.variations:
-            for tag in df.variations[variationName]["tags"]:
-                tmp_varied_cols = df.GetVariedColumns_oneVariation(
-                    self.saveColumns, variationName, tag
-                )
-                outputFilename = self.tmpOutputFilename.split(".")
-                outputFilename[-2] += "__" + variationName + "_" + tag
-                outputFilename = ".".join(outputFilename)
-                self.snapshots.append(
-                    [
-                        variationName + "_" + tag,
-                        tmp_varied_cols,
-                        outputFilename,
-                        False,
-                        self.eosPath + "__" + variationName + "_" + tag,
-                        self.outputFilename,
-                    ]
-                )
+        if self.outputMap != {}:
+            for variationName in self.outputMap.keys():
+                for tag in df.variations[self.outputMap[variationName][0]]["tags"]:
+                    tmp_varied_cols = []
+
+                    for variationNameSpecific in self.outputMap[variationName]:
+                        tmp_varied_cols.extend(
+                            df.GetVariedColumns_oneVariation(
+                                self.saveColumns, variationNameSpecific, tag
+                            )
+                        )
+                    outputFilename = self.tmpOutputFilename.split(".")
+                    outputFilename[-2] += "__" + variationName + "_" + tag
+                    outputFilename = ".".join(outputFilename)
+                    self.snapshots.append(
+                        [
+                            variationName + "_" + tag,
+                            tmp_varied_cols,
+                            outputFilename,
+                            False,
+                            self.eosPath + "__" + variationName + tag + "_suffix",
+                            self.outputFilename,
+                        ]
+                    )
+        else:
+            for variationName in df.variations:
+                for tag in df.variations[variationName]["tags"]:
+                    tmp_varied_cols = df.GetVariedColumns_oneVariation(
+                        self.saveColumns, variationName, tag
+                    )
+                    outputFilename = self.tmpOutputFilename.split(".")
+                    outputFilename[-2] += "__" + variationName + "_" + tag
+                    outputFilename = ".".join(outputFilename)
+                    self.snapshots.append(
+                        [
+                            variationName + "_" + tag,
+                            tmp_varied_cols,
+                            outputFilename,
+                            False,
+                            self.eosPath + "__" + variationName + tag + "_suffix",
+                            self.outputFilename,
+                        ]
+                    )
 
     def StoreNominals(self, df):
         """

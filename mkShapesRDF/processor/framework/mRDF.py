@@ -18,8 +18,8 @@ class mRDF:
         """
         Naming convention for variations.
 
-        Given a variation name and a tag it will return ``variationName_variationTag``.
-        If a column name is provided, it will return ``col__variationName_variationTag``.
+        Given a variation name and a tag it will return ``{variationName}{variationTag}``.
+        If a column name is provided, it will return ``col_{variationName}{variationTag}``.
 
         Parameters
         ----------
@@ -36,9 +36,9 @@ class mRDF:
             formatted string
         """
         if col == "":
-            return variationName + "_" + variationTag
+            return variationName + variationTag
         else:
-            return col + "__" + variationName + "_" + variationTag
+            return col + "_" + variationName + variationTag
 
     def setNode(self, dfNode, cols, cols_d, variations):
         r"""Set internal variables of an ``mRDF`` object to the provided ones
@@ -135,13 +135,11 @@ class mRDF:
 
         c = self.Copy()
 
-        # store nominal value in a special temporary column
-        colName = a + "_tmp_SPECIAL_NOMINAL"
-        if colName not in (c.cols + c.cols_d):
-            c.df = c.df.Define(colName, b)
+        if a not in (c.cols + c.cols_d):
+            c.df = c.df.Define(a, b)
         else:
-            c.df = c.df.Redefine(colName, b)
-        c.cols = list(set(c.cols + [colName]))
+            c.df = c.df.Redefine(a, b)
+        c.cols = list(set(c.cols + [a]))
 
         # check variations
         depVars = ParseCpp.listOfVariables(ParseCpp.parse(b))
@@ -172,19 +170,11 @@ class mRDF:
                         mRDF.variationNaming(variationName, tag, variable),
                     )
                 varied_bs.append(ParseCpp.format(varied_b))
-            _type = c.df.GetColumnType(colName)
+            _type = c.df.GetColumnType(a)
             expression = (
                 ParseCpp.RVecExpression(_type) + " {" + ", ".join(varied_bs) + "}"
             )
             c = c.Vary(a, expression, variations[variationName]["tags"], variationName)
-
-        # move back nominal value to the right column name -> a
-        if a not in (c.cols + c.cols_d):
-            c.df = c.df.Define(a, colName)
-        else:
-            c.df = c.df.Redefine(a, colName)
-        c = c.DropColumns(colName, includeVariations=False)
-        c.cols = list(set(c.cols + [a]))
 
         return c
 
@@ -246,19 +236,12 @@ class mRDF:
             set(c.variations[variationName]["variables"] + [colName])
         )
 
-        # define a column that will contain the two variations in a vector of len 2
-        c = c.Define(
-            colName + "__" + variationName, expression, excludeVariations=["*"]
-        )
-
         for i, variationTag in enumerate(variationTags):
             c = c.Define(
                 mRDF.variationNaming(variationName, variationTag, colName),
-                colName + "__" + variationName + "[" + str(i) + "]",
+                expression + "[" + str(i) + "]",
                 excludeVariations=["*"],
             )
-
-        c = c.DropColumns(colName + "__" + variationName)
 
         return c
 
@@ -443,7 +426,27 @@ class mRDF:
         """
         return self.df.Sum(string)
 
-    def Snapshot(self, *args, **kwargs):
+    # def Snapshot(self, *args, **kwargs):
+    #     """
+    #     Produce a Snapshot of the mRDF and return it
+    #
+    #     Parameters
+    #     ----------
+    #     *args : list
+    #         list of arguments to be passed to the ``RDataFrame::Snapshot`` method
+    #
+    #     **kwargs : dict
+    #         dictionary of keyword arguments to be passed to the ``RDataFrame::Snapshot`` method
+    #
+    #
+    #     Returns
+    #     -------
+    #     `Snapshot` or `Proxy<Snapshot>`
+    #         The ``Snapshot`` object, or a ``Proxy<Snapshot>`` if ``lazy=True`` is passed as a keyword argument
+    #     """
+    #     return self.df.Snapshot(*args, **kwargs)
+    #
+    def Snapshot(self, treeName, fileName, columns, *args, **kwargs):
         """
         Produce a Snapshot of the mRDF and return it
 
@@ -461,19 +464,70 @@ class mRDF:
         `Snapshot` or `Proxy<Snapshot>`
             The ``Snapshot`` object, or a ``Proxy<Snapshot>`` if ``lazy=True`` is passed as a keyword argument
         """
-        return self.df.Snapshot(*args, **kwargs)
+        # events = ak.from_rdataframe(self.df, columns)
+        # def function(columns, ):
+        import uproot
+        import awkward as ak
+        from math import ceil
+        def call(df):
+            chunksize = 10_000
+            nIterations = max(ceil(df.Count().GetValue() / chunksize), 1)
+            outFile = uproot.recreate(fileName)
+            branches = columns.copy()
+            _branches = branches.copy()
+            zips = {'CleanJet': [],
+                    'WH3l_dphilmet': [],
+                    'WH3l_mtlmet': [],
+            }
+            for zipName in zips:
+                zipBranches = list(filter(lambda k: k.startswith(zipName + '_'), branches))
+                zips[zipName] = zipBranches
+                branches = list(set(branches).difference(zipBranches))
+            print(zips)
+            for i in range(nIterations):
+                _df = df.Range( i * chunksize, (i+1) * chunksize)
+                events = ak.from_rdataframe(_df, _branches)
+
+                def getBranch(events, branch):
+                    if 'float64' in str(events[branch].type):
+                        return ak.values_astype(events[branch],'float32')
+                    return events[branch]
+                d = {}
+                for zipName in zips:
+                    z = {}
+                    for branch in zips[zipName]:
+                        z[branch[len(zipName)+1:]] = getBranch(events, branch)
+
+                    if len(list(z.keys())) == 0:
+                        # print('No columns found to zip for collection', zipName)
+                        continue
+
+                    d[zipName] = ak.zip(z)
+                    #branches = list(set(branches).difference(zips[zipName]))
+
+                for branch in branches[:]:
+                    d[branch] = getBranch(events, branch)
+
+                _events = ak.Array(d)
+                if treeName not in outFile:
+                    if len(_events) == 0:
+                        dtypes = {}
+                        for branch in _events.fields:
+                            dtypes[branch] = _events[branch].type
+                        # print(dtypes)
+                        # print('Creating ttree')
+                        outFile.mktree(treeName, dtypes)
+                        continue
+                    else:
+                        # print('Creating ttree right way')
+                        outFile[treeName] = d
+                        continue
+
+                outFile[treeName].extend(d)
+
+            outFile.close()
+
+        return (call, columns)
 
     def Histo1D(self, *args):
-        """                                                                                                                                                                                                                                                                   
-        Produce a TH1D of the mRDF and return it                                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                              
-        Parameters                                                                                                                                                                                                                                                            
-        ----------                                                                                                                                                                                                                                                            
-        *args : list                                                                                                                                                                                                                                                          
-            list of arguments to be passed to the ``RDataFrame::Histo1D`` method                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                              
-        Returns                                                                                                                                                                                                                                                               
-        -------                                                                                                                                                                                                                                                               
-        `Proxy<TH1D>`                                                                                                                                                                                                                                                         
-        """
         return self.df.Histo1D(*args)
