@@ -36,9 +36,9 @@ class mRDF:
             formatted string
         """
         if col == "":
-            return variationName + variationTag
+            return variationName + "_" + variationTag
         else:
-            return col + "_" + variationName + variationTag
+            return col + "__" + variationName + "_" + variationTag
 
     def setNode(self, dfNode, cols, cols_d, variations):
         r"""Set internal variables of an ``mRDF`` object to the provided ones
@@ -134,12 +134,13 @@ class mRDF:
         """
 
         c = self.Copy()
-
-        if a not in (c.cols + c.cols_d):
-            c.df = c.df.Define(a, b)
+        # store nominal value in a special temporary column
+        colName = a + "_tmp_SPECIAL_NOMINAL"
+        if colName not in (c.cols + c.cols_d):
+            c.df = c.df.Define(colName, b)
         else:
-            c.df = c.df.Redefine(a, b)
-        c.cols = list(set(c.cols + [a]))
+            c.df = c.df.Redefine(colName, b)
+        c.cols = list(set(c.cols + [colName]))
 
         # check variations
         depVars = ParseCpp.listOfVariables(ParseCpp.parse(b))
@@ -170,11 +171,19 @@ class mRDF:
                         mRDF.variationNaming(variationName, tag, variable),
                     )
                 varied_bs.append(ParseCpp.format(varied_b))
-            _type = c.df.GetColumnType(a)
+            _type = c.df.GetColumnType(colName)
             expression = (
                 ParseCpp.RVecExpression(_type) + " {" + ", ".join(varied_bs) + "}"
             )
             c = c.Vary(a, expression, variations[variationName]["tags"], variationName)
+
+        # move back nominal value to the right column name -> a 
+        if a not in (c.cols + c.cols_d):
+            c.df = c.df.Define(a, colName)
+        else:
+            c.df = c.df.Redefine(a, colName)
+        c = c.DropColumns(colName, includeVariations=False)
+        c.cols = list(set(c.cols + [a]))
 
         return c
 
@@ -236,12 +245,19 @@ class mRDF:
             set(c.variations[variationName]["variables"] + [colName])
         )
 
+        # define a column that will contain the two variations in a vector of len 2
+        c = c.Define(
+            colName + "__" + variationName, expression, excludeVariations=["*"]
+        )
+
         for i, variationTag in enumerate(variationTags):
             c = c.Define(
                 mRDF.variationNaming(variationName, variationTag, colName),
-                expression + "[" + str(i) + "]",
+                colName + "__" + variationName + "[" + str(i) + "]",
                 excludeVariations=["*"],
             )
+
+        c = c.DropColumns(colName + "__" + variationName)
 
         return c
 
@@ -505,8 +521,11 @@ class mRDF:
                     d[zipName] = ak.zip(z)
                     #branches = list(set(branches).difference(zips[zipName]))
 
+                # using some branches only as it is showing problem in writing outfile with all branches
+                branches_shortlist=["CleanJet_eta", "CleanJet_jetIdx", "CleanJet_mass", "CleanJet_phi", "CleanJet_pt", "CorrT1METJet_area", "CorrT1METJet_eta", "CorrT1METJet_muonSubtrFactor", "CorrT1METJet_phi", "CorrT1METJetdom","FatJet_area", "FatJet_btagCSVV2", "FatJet_btagDDBvLV2", "FatJet_btagDDCvBV2", "FatJet_btagDDCvLV2", "FatJet_btagDeepB", "FatJet_btagHbb", "FatJet_eta", "FatJet_genJetAK8Idx", "FatJet_hadronFlavour", "FatJet_jetId", "FatJet_lsf3", "FatJet_mass", "FatJet_msoftdrop", "FatJet_muonIdx3SJ", "FatJet_n2b1", "FatJet_n3b1", "FatJet_nBHadrons", "FatJet_nCHadrons", "FatJet_nConstituents", "FatJet_phi", "FatJet_pt", "FatJet_rawFactor", "FatJet_subJetIdx1", "FatJet_subJetIdx2", "GenJetAK8_eta", " GenJetAK8_hadronFlavour", "GenJetAK8_mass", "GenJetAK8_partonFlavour", "GenJetAK8_phi", "GenJetAK8_pt", "GenJet_eta", "GenJet_hadronFlavour", "GenJet_mass", "GenJet_partonFlavour", "GenJet_phi", "GenJet_pt", "Jet_eta", "Jet_genJetIdx", "Jet_hadronFlavour", "Jet_hfadjacentEtaStripsSize", "Jet_hfcentralEtaStripSize", "Jet_hfsigmaEtaEta", "Jet_hfsigmaPhiPhi", "Jet_jetId", "Jet_mass", "Jet023EF", "Jet_muonIdx1", "Jet_muonIdx2", "Jet_muonSubtrFactor", "Jet_nConstituents", "Jet_nElectrons", "Jet_nMuons", "Jet_nSVs", "Jet_neEmEF", "Jet_neHEF", "Jet_partonFlavour", "Jet_phi", "Jet_pt", "Jet_rawFactor", "Jet_svIdx1", "Jet_svIdx2", "SubGenJetAK8_eta", "SubGenJetAK8_mass", "SubGenJetAK8_phi", "SubGenJetAK8_pt", "SubJet_btagCSVV2", "SubJet_btagDeepB", "SubJet_eta", "SubJet_hadronFlavour", "SubJet_mass","SubJet_n2b1", "SubJet_n3b1", "SubJet_nBHadrons", "SubJet_nCHadrons", "SubJet_phi", "SubJet_pt", "SubJet_rawFactor", "jetpt1_cut", "jetpt2_cut", "mlljj20_whss_jet2", "mlljj20_whss_no_jet2", "nCorrT1METJet", "nFatJet", "nGenJet", "nGenJetAK8","nJet","nSoftActivityJet", "nSubGenJetAK8", "nSubJet","njet"]
                 for branch in branches[:]:
-                    d[branch] = getBranch(events, branch)
+                    if branch in branches_shortlist:
+                        d[branch] = getBranch(events, branch)
 
                 _events = ak.Array(d)
                 if treeName not in outFile:
@@ -530,4 +549,27 @@ class mRDF:
         return (call, columns)
 
     def Histo1D(self, *args):
+        """
+
+        Produce a TH1D of the mRDF and return it
+
+
+
+        Parameters
+
+        ----------
+
+        *args : list
+
+            list of arguments to be passed to the ``RDataFrame::Histo1D`` method
+
+
+
+        Returns
+
+        -------
+
+        `Proxy<TH1D>`
+
+        """
         return self.df.Histo1D(*args)

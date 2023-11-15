@@ -282,8 +282,8 @@ class Processor:
             copyFromInputFiles = destination[1]
             outputFilename = destination[0]
 
-            #if copyFromInputFiles:
-            #    Snapshot.CopyFromInputFiles(outputFilename, files)
+            if copyFromInputFiles:
+                Snapshot.CopyFromInputFiles(outputFilename, files)
 
             outputFolderPath = destination[2]
             outputFilenameEOS = destination[3]
